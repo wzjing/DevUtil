@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.graphics.Point
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -34,11 +35,18 @@ class MainActivity : AppCompatActivity() {
                 gravity = Gravity.TOP or Gravity.END
                 val size = Point()
                 defaultDisplay.getSize(size)
-                x = size.x
+                type =
+                    if (Build.VERSION.SDK_INT >= 28) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                    else WindowManager.LayoutParams.TYPE_PHONE
+                x =  200
                 y = 500
-                format = PixelFormat.TRANSLUCENT
+                width = 300
+                height = 200
+                format = PixelFormat.RGBA_8888
+                flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
             }
-            addView(LayoutInflater.from(this@MainActivity).inflate(R.layout.activity_float, null), params)
+            val view = LayoutInflater.from(this@MainActivity).inflate(R.layout.activity_float, null)
+            addView(view, params)
         }
     }
 
